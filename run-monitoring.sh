@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker run \
+sudo docker run \
   --name grafana \
   -p 3003:9000 \
   -p 3004:8083 \
