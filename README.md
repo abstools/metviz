@@ -4,45 +4,45 @@ A tool to relay a metric log to a monitoring backend.
 
 ## Installation
 
-1. Install Python 3+
+* Install Python 3+
 ```bash
 $ sudo apt-get install python3
 ```
-2. Install Python 3 pip
+* Install Python 3 pip
 ```bash
 $ sudo apt-get install python3-pip
 ```
-3. Install Python Requests
+* Install Python Requests
 ```bash
 $ (sudo) pip3 install requests
 ```
-4. Install modgrammar
+* Install modgrammar
 ```bash
 $ (sudo) pip3 install modgrammar
 ```
-5. Install docker
+* Install docker
 ```bash
 $ sudo apt-get install docker-engine
 ```
 
 ## Configuration
 
-1. Start the monitoring backend. For more information refer to [here][mon]:
+* Start the monitoring backend. For more information refer to [here][mon]:
 ```bash
 $ ./run-monitoring.sh
 ```
-2. Go to InfluxDB admin at http://localhost:3004
-3. Use *Query Templates* to create a database `datasource` if it does not exist.
-4. Go to Grafana at http://localhost:3003
-5. Use `root/root` to log in
-6. From top-left menu, go to *Data Sources* to configure one
+* Go to InfluxDB admin at http://localhost:3004
+* Use *Query Templates* to create a database `datasource` if it does not exist.
+* Go to Grafana at http://localhost:3003
+* Use `root/root` to log in
+* From top-left menu, go to *Data Sources* to configure one
     * Name: `default` and also check *Default* option
     * Type: `InfluxDB`
     * URL: `http://localhost:8086`
     * Access: `direct`
     * Database: `datasource`
     * User/Pass: `datasource/datasource`
-7. From top-left menu, go to *Dashboards* to *Import* one
+* From top-left menu, go to *Dashboards* to *Import* one
     * Use the file in the root of this repository `Metric-Viz.json`.
     * Use the above `default` data source for the dashboard.
     * Save and open the dashboard
