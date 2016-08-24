@@ -72,5 +72,7 @@ JSON format.
 ## TODO
 
 - [ ] Document ABS JSON format
+- [ ] Run static code analysis
+- [ ] Run Google source formatter
 
 [mon]: https://github.com/advantageous/docker-grafana-statsd/
