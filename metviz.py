@@ -99,7 +99,7 @@ def start(func_metrics, metrics_url, interval=9.5, t0=T0, ds_host='localhost', d
         raw_metrics = func_metrics(metrics_url)
         metrics = process_metrics(raw_metrics)
         send_metrics(metrics, t0, ds_host, ds_port, ds_db)
-        logging.info("Wating %s for the next round ...", interval)
+        logging.info("Waiting %s for the next round ...", interval)
         time.sleep(interval)
 
 def main(args):
