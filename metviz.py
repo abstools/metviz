@@ -45,6 +45,8 @@ def process_metrics(values):
     values -- the metrics values in 'some' JSON format
     """
     if 'result' in values:
+        if values['result'] == 'Nil':
+            return []
         return parse(values['result'])
     else:
         # Assume this is proper JSON
