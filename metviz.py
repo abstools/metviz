@@ -2,6 +2,7 @@
 A metric visualization tool
 """
 
+import argparse
 from datetime import datetime, timedelta
 import json
 import logging
@@ -102,18 +103,37 @@ def start(func_metrics, metrics_url, interval=9.5, t0=T0, ds_host='localhost', d
         logging.info("Waiting %s for the next round ...", interval)
         time.sleep(interval)
 
+def args_parser():
+    """ Create a CLI argument parser
+    """
+    parser = argparse.ArgumentParser(prog = 'metviz.py',
+        description = 'Visualize metrics. Requires Python 3.x.')
+    parser.add_argument('--url', required = True,
+        help = "The URL from which to retrieve raw metrics data. If the value 'TEST' is provided, the program runs on a sample data set without using the connecting to ABS remote to obtain metrics.")
+    parser.add_argument('--interval', default = '9.5', required = False,
+        help = "The interval (seconds) between each cycle")
+    parser.add_argument('--t0', required = False,
+        help = "The time of the start of the system for data backend. All the time should be in UTC time zone. If not provided, UTC `now()` is used as the reference. The format to provide this time is 'Y-m-d_H-M-S'; e.g. '2001-03-05_06-12-09'.")
+    parser.add_argument('--host', default = 'localhost', required = False,
+        help = "The host of the data backend")
+    parser.add_argument('--port', default = '8086', required = False,
+        help = "The port of the data backend")
+    parser.add_argument('--database', default = 'datasource', required = False,
+        help = "The name of the database in the data backend")
+    return parser
+
 def main(args):
     """The main function to start the program
 
     args -- the command line arguments
     """
-    metrics_url = args[1]
+    metrics_url = args.url
     func_get_metrics = get_metrics_example if metrics_url == "TEST" else get_metrics
-    interval = float(args[2]) if len(args) >= 3 else 9.5
-    t0 = datetime.strptime(args[3], '%Y-%m-%d_%H-%M-%S') if len(args) >=4 else datetime.utcnow()
-    ds_host = args[4] if len(args) >= 5 else 'localhost'
-    ds_port = int(args[5]) if len(args) >= 6 else 8086
-    ds_db = args[6] if len(args) == 7 else 'datasource'
+    interval = float(args.interval)
+    t0 = datetime.strptime(args.t0, '%Y-%m-%d_%H-%M-%S') if args.t0 != None else datetime.utcnow()
+    ds_host = args.host
+    ds_port = int(args.port)
+    ds_db = args.database
     start(func_get_metrics, metrics_url, interval, t0, ds_host, ds_port, ds_db)
 
 if __name__ == "__main__":
@@ -127,29 +147,9 @@ if __name__ == "__main__":
     except:
         pass
 
-    if len(sys.argv) == 1 or len(sys.argv) > 7:
-        usage = """
-Usage:
-
-python3.5 metviz.py URL [INTERVAL] [T0] [DS_HOST] [DS_PORT] [DS_DB]
-
-        URL:        the URL from which to retrieve raw metrics data.
-                    If the value 'TEST' is provided, the program runs
-                    on a sample data set without using the connecting
-                    to ABS remote to obtain metrics.
-        INTERVAL:   the interval (seconds) between each cycle (default: 9.5)
-        T0:         the time of the start of the system for data backend.
-                    All the time should be in UTC time zone. If not provided,
-                    UTC `now()` is used as the reference. The format to provide
-                    this time is '%Y-%m-%d_%H-%M-%S'; e.g. '2001-03-05_06-12-09'.
-        DS_HOST:    the host of the data backend (default: localhost)
-        DS_PORT:    the port of the data backend (default: 8086)
-        DS_DB:      the name of the database in the data backend (default: datasource)
-
-        """
-        logging.info("%s", usage)
-        sys.exit(1)
-    if sys.argv[1] == "TEST":
+    cli_parser = args_parser()
+    args = cli_parser.parse_args()
+    if args.url == "TEST":
         DEBUG = True
         logging.warn("DEBUG mode enabled")
-    main(sys.argv)
+    main(args)
