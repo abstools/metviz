@@ -83,28 +83,9 @@
             {
               "dsType": "influxdb",
               "groupBy": [],
-              "measurement": "gamma.fas.live.200ms",
+              "measurement": "/^$customer\\.fas\\.live\\.$type$/",
               "policy": "default",
               "refId": "A",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "value"
-                    ],
-                    "type": "field"
-                  }
-                ]
-              ],
-              "tags": []
-            },
-            {
-              "dsType": "influxdb",
-              "groupBy": [],
-              "measurement": "gamma.fas.live.500ms",
-              "policy": "default",
-              "refId": "B",
               "resultFormat": "time_series",
               "select": [
                 [
@@ -121,13 +102,14 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "FAS Live (Gamma)",
+          "title": "FAS Live",
           "tooltip": {
             "msResolution": true,
             "shared": true,
             "sort": 0,
             "value_type": "cumulative"
           },
+          "transparent": true,
           "type": "graph",
           "xaxis": {
             "show": true
@@ -185,14 +167,43 @@
     ]
   },
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {},
+        "datasource": "${DS_DEFAULT}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Customer",
+        "multi": true,
+        "name": "customer",
+        "options": [],
+        "query": "SHOW MEASUREMENTS",
+        "refresh": 1,
+        "regex": "(\\w+)\\..*",
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": "${DS_DEFAULT}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Type",
+        "multi": true,
+        "name": "type",
+        "options": [],
+        "query": "SHOW MEASUREMENTS",
+        "refresh": 1,
+        "regex": ".*fas\\.live\\.(\\w+)",
+        "type": "query"
+      }
+    ]
   },
   "annotations": {
     "list": []
   },
   "refresh": "5s",
   "schemaVersion": 12,
-  "version": 2,
+  "version": 9,
   "links": [],
   "gnetId": null
 }
