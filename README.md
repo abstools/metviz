@@ -69,10 +69,4 @@ $ python metviz.py http://localhost:9999/X/Y/Z
 The above endpoint should be accessible with HTTP `GET` method with the specified
 JSON format.
 
-## TODO
-
-- [ ] Document ABS JSON format
-- [ ] Run static code analysis
-- [ ] Run Google source formatter
-
 [mon]: https://github.com/advantageous/docker-grafana-statsd/
