@@ -1,6 +1,6 @@
 # metviz
 
-A tool to relay a metric log to a monitoring backend.
+A tool that relays metrics (as time-series) from an HTTP endpoint in an ABS model to InfluxDB for visualization.
 
 ## Installation
 
