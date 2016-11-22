@@ -107,21 +107,21 @@ def args_parser():
     """ Create a CLI argument parser
     """
     parser = argparse.ArgumentParser(prog = 'metviz.py',
-        description = 'Visualize metrics. Requires Python 3.x.')
-    parser.add_argument('--url', required = True,
+        description = 'Repeatedly retrieves metric data from an ABS model at the specified URL and stores it as time-series in an InfluxDB instance. Requires Python 3.x.')
+    parser.add_argument('url', metavar = 'URL',
         help = "The URL from which to retrieve raw metrics data. If the value 'TEST' is provided, the program runs on a sample data set without using the connecting to ABS remote to obtain metrics.")
-    parser.add_argument('--interval', default = '9.5', required = False,
-        help = "The interval (seconds) between each cycle")
+    parser.add_argument('--interval', required = False, default = '9.5',
+        help = "The interval (seconds) between each cycle to retrieve metric data (default: 9.5)")
     parser.add_argument('--t0', required = False,
-        help = "The time of the start of the system for data backend. All the time should be in UTC time zone. If not provided, UTC `now()` is used as the reference. The format to provide this time is 'Y-m-d_H-M-S'; e.g. '2001-03-05_06-12-09'.")
+        help = "The time of the start of the system for data backend. The specified time should be in the UTC time zone (default: UTC now()). The format to provide this time is 'Y-m-d_H-M-S'; e.g. '2001-03-05_06-12-09'.")
     parser.add_argument('--ccf', required = False, default = "1.0",
-        help = "Clock Cycle Factor. A double value in (0, 1) to denote the clock cycles factor in relation with real-time clock. A value of 1 means the same clock cycle factor as Python 'time' module sees.")
-    parser.add_argument('--host', default = 'localhost', required = False,
-        help = "The host of the data backend")
-    parser.add_argument('--port', default = '8086', required = False,
-        help = "The port of the data backend")
-    parser.add_argument('--database', default = 'datasource', required = False,
-        help = "The name of the database in the data backend")
+        help = "Clock Cycle Factor. A double value denoting how many seconds 1 ABS clock cycle in the queried ABS model takes in real world wall-clock time. A ccf of 0.01 means that each clock cycle takes 0.01s, or 10 milliseconds. (default: 1.0)")
+    parser.add_argument('--host', required = False, default = 'localhost',
+        help = "The host of the data backend (default: localhost)")
+    parser.add_argument('--port', required = False, default = '8086',
+        help = "The port of the data backend (default: 8086)")
+    parser.add_argument('--database', required = False, default = 'datasource',
+        help = "The name of the database in the data backend (default: datasource)")
     return parser
 
 def main(args):
